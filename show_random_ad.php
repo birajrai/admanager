@@ -9,7 +9,7 @@ if ($category_id > 0) {
     $ad = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($ad) {
-        echo '<a href="' . htmlspecialchars($ad['link']) . '" target="_blank"><img src="' . $domain . htmlspecialchars($ad['image_path']) . '" alt="' . htmlspecialchars($ad['title']) . '"></a>';
+        echo '<a href="' . htmlspecialchars($ad['link']) . '" target="_blank"><img src="' . htmlspecialchars($ad['image_path']) . '" alt="' . htmlspecialchars($ad['title']) . '"></a>';
     } else {
         echo 'No ads available.';
     }

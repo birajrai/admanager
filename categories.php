@@ -15,6 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $categories = $conn->query("SELECT * FROM categories")->fetchAll(PDO::FETCH_ASSOC);
+
+// Get current URL root
+$currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . '/';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +46,7 @@ $categories = $conn->query("SELECT * FROM categories")->fetchAll(PDO::FETCH_ASSO
             <?php foreach ($categories as $category): ?>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <?php echo htmlspecialchars($category['name']); ?>
-                    <button class="btn btn-outline-secondary copy-btn" data-category-code='<script src="http://yourdomain.com//show_random_ad.php?category=<?php echo $category['id']; ?>"></script>'>Copy Script</button>
+                    <button class="btn btn-outline-secondary copy-btn" data-category-code='<script src="<?php echo $currentUrl; ?>show_random_ad.php?category=<?php echo $category['id']; ?>"></script>'>Copy Script</button>
                 </li>
             <?php endforeach; ?>
         </ul>

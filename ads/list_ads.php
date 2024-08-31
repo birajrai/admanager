@@ -3,11 +3,14 @@ session_start();
 require_once '../db.php';
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: /login.php');
+    header('Location: ../login.php');
     exit;
 }
 
 $ads = $conn->query("SELECT ads.*, categories.name as category_name FROM ads JOIN categories ON ads.category_id = categories.id")->fetchAll(PDO::FETCH_ASSOC);
+
+// Get current URL root
+$currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . '/';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +35,7 @@ $ads = $conn->query("SELECT ads.*, categories.name as category_name FROM ads JOI
                             <h5 class="card-title"><?php echo htmlspecialchars($ad['title']); ?> (<?php echo htmlspecialchars($ad['category_name']); ?>)</h5>
                             <p class="card-text"><?php echo htmlspecialchars($ad['description']); ?></p>
                             <a href="<?php echo htmlspecialchars($ad['link']); ?>" class="btn btn-primary" target="_blank">Visit Link</a>
-                            <button class="btn btn-outline-secondary mt-3 copy-btn" data-ad-code='<a href="<?php echo htmlspecialchars($ad['link']); ?>" target="_blank"><img src="<?php echo htmlspecialchars($ad['image_path']); ?>" alt="<?php echo htmlspecialchars($ad['title']); ?>"></a>'>Copy HTML Code</button>
+                            <button class="btn btn-outline-secondary mt-3 copy-btn" data-ad-code='<a href="<?php echo htmlspecialchars($ad['link']); ?>" target="_blank"><img src="<?php echo $currentUrl . htmlspecialchars($ad['image_path']); ?>" alt="<?php echo htmlspecialchars($ad['title']); ?>"></a>'>Copy HTML Code</button>
                             <a href="edit_ad.php?id=<?php echo $ad['id']; ?>" class="btn btn-warning mt-3">Edit</a>
                             <a href="delete_ad.php?id=<?php echo $ad['id']; ?>" class="btn btn-danger mt-3" onclick="return confirm('Are you sure you want to delete this ad?');">Delete</a>
                         </div>
